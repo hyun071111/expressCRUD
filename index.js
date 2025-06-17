@@ -27,7 +27,7 @@ const { Schema } = mongoose;
 const WritingSchema = new Schema({
     title : String,
     contents : String,
-    data : {
+    date : {
         type: Date,
         default: Date.now,
     }
@@ -107,6 +107,19 @@ app.post('/edit/:id', async (req, res) => {
         console.error(err)
     })
 })
+
+// 삭제 기능 추가
+app.post('/delete/:id', async (req, res) => {
+    const id = req.params.id;
+    
+    try {
+        await Writing.deleteOne({ _id: id });
+        res.redirect('/');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('삭제 중 오류가 발생했습니다.');
+    }
+});
 
 app.listen(3000, () => {
     console.log('Server is running');
