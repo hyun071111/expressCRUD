@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <h1 class="card-title mb-4">글 수정</h1>
+                <form action="/edit/{{ edit._id }}" method="post">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">제목</label>
+                        <input type="text" class="form-control" name="title" id="title" value="{{ edit.title }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="contents" class="form-label">내용</label>
+                        <textarea class="form-control" name="contents" id="contents" rows="5" required>{{ edit.contents }}</textarea>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <a href="/detail/{{ edit._id }}" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left me-2"></i>돌아가기
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-lg me-2"></i>수정 완료
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
