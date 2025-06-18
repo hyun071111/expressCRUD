@@ -20,10 +20,10 @@
                             <i class="bi bi-arrow-left me-2"></i>목록으로
                         </a>
                         <div>
-                            <a href="/edit/{{ detail.id }}" class="btn btn-primary me-2">
+                            <a href="/edit/{{ detail._id }}" class="btn btn-primary me-2">
                                 <i class="bi bi-pencil me-2"></i>수정
                             </a>
-                            <form action="/delete/{{detail.id}}" method="post" class="d-inline">
+                            <form action="/delete/{{detail._id}}" method="post" class="d-inline">
                                 <button type="submit" class="btn btn-danger" onclick="return confirm('정말 삭제하시겠습니까?')">
                                     <i class="bi bi-trash me-2"></i>삭제
                                 </button>
@@ -36,7 +36,7 @@
             <div class="card">
                 <div class="card-body">
                     <h1 class="card-title mb-4">글 수정</h1>
-                    <form action="/edit/{{ edit.id }}" method="post">
+                    <form action="/edit/{{ edit._id }}" method="post">
                         <div class="mb-3">
                             <label for="title" class="form-label">제목</label>
                             <input type="text" class="form-control" name="title" id="title" value="{{ edit.title }}" required>
@@ -46,7 +46,7 @@
                             <textarea class="form-control" name="contents" id="contents" rows="5" required>{{ edit.contents }}</textarea>
                         </div>
                         <div class="d-flex justify-content-between">
-                            <a href="/detail/{{ edit.id }}" class="btn btn-secondary">
+                            <a href="/detail/{{ edit._id }}" class="btn btn-secondary">
                                 <i class="bi bi-arrow-left me-2"></i>돌아가기
                             </a>
                             <button type="submit" class="btn btn-primary">
