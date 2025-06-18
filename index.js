@@ -103,25 +103,49 @@ app.get('/detail/:id', async (req, res) => {
 app.get('/edit/:id', async (req, res) => {
     const id = req.params.id;
 
-    const edit = await Writing.findOne({ _id: id }).then((result) => {
-        res.render('detail', { 'edit': result })
-    }).catch((err) => {
-        console.error(err)
-    })
-})
+    try {
+        const edit = await Writing.findOne({ _id: id });
+        if (edit) {
+            const formattedEdit = {
+                ...edit.toObject(),
+                date: formatDate(edit.date)
+            };
+            res.render('detail', { edit: formattedEdit });
+        } else {
+            res.status(404).send('게시글을 찾을 수 없습니다.');
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Internal Server Error');
+    }
+});
 
 app.post('/edit/:id', async (req, res) => {
     const id = req.params.id;
     const title = req.body.title;
     const contents = req.body.contents;
 
-    const edit = await Writing.replaceOne({ _id: id }, { title: title, contents: contents }).then((result) => {
-        console.log('update success')
-        res.render('detail', { 'detail': { 'id': id, 'title': title, 'contents': contents } });
-    }).catch((err) => {
-        console.error(err)
-    })
-})
+    try {
+        const result = await Writing.findByIdAndUpdate(
+            id,
+            { title, contents },
+            { new: true }
+        );
+        
+        if (result) {
+            const formattedDetail = {
+                ...result.toObject(),
+                date: formatDate(result.date)
+            };
+            res.render('detail', { detail: formattedDetail });
+        } else {
+            res.status(404).send('게시글을 찾을 수 없습니다.');
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('수정 중 오류가 발생했습니다.');
+    }
+});
 
 // 삭제 기능 추가
 app.post('/delete/:id', async (req, res) => {
