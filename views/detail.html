@@ -1,20 +1,62 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    {% if detail %}
-        <h1>상세 페이지</h1>
-        <p>글 제목: {{ detail.title }}</p>
-        <p>글 내용: {{ detail.contents }}</p>
-        <a href="/edit/{{ detail.id }}" class="btn">글 수정</a>
-        <form action="/delete/{{detail.id}}" method="post">
-            <input type="submit" value="글 삭제">
-        </form>
-    {% else %}
-        <h1>상세 페이지 수정</h1>
-        <form action="/edit/{{ edit.id }}" method="post">
-            <p>글 제목: <input type="text" name="title" value="{{ edit.title }}"></p>
-            <p>글 내용: <input type="text" name="contents" value="{{ edit.contents }}"></p>
-            <input type="submit" value="수정 완료">
-        </form>
-    {% endif %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        {% if detail %}
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="card-title mb-4">{{ detail.title }}</h1>
+                    <div class="mb-4">
+                        <small class="text-muted">
+                            <i class="bi bi-calendar me-2"></i>{{ detail.date.toLocaleDateString() }}
+                        </small>
+                    </div>
+                    <div class="card-text mb-4">
+                        {{ detail.contents }}
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <a href="/" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left me-2"></i>목록으로
+                        </a>
+                        <div>
+                            <a href="/edit/{{ detail.id }}" class="btn btn-primary me-2">
+                                <i class="bi bi-pencil me-2"></i>수정
+                            </a>
+                            <form action="/delete/{{detail.id}}" method="post" class="d-inline">
+                                <button type="submit" class="btn btn-danger" onclick="return confirm('정말 삭제하시겠습니까?')">
+                                    <i class="bi bi-trash me-2"></i>삭제
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="card-title mb-4">글 수정</h1>
+                    <form action="/edit/{{ edit.id }}" method="post">
+                        <div class="mb-3">
+                            <label for="title" class="form-label">제목</label>
+                            <input type="text" class="form-control" name="title" id="title" value="{{ edit.title }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="contents" class="form-label">내용</label>
+                            <textarea class="form-control" name="contents" id="contents" rows="5" required>{{ edit.contents }}</textarea>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <a href="/detail/{{ edit.id }}" class="btn btn-secondary">
+                                <i class="bi bi-arrow-left me-2"></i>돌아가기
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-check-lg me-2"></i>수정 완료
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}
