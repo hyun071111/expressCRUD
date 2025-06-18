@@ -110,7 +110,7 @@ app.get('/edit/:id', async (req, res) => {
                 ...edit.toObject(),
                 date: formatDate(edit.date)
             };
-            res.render('detail', { edit: formattedEdit });
+            res.render('edit', { edit: formattedEdit });
         } else {
             res.status(404).send('게시글을 찾을 수 없습니다.');
         }
@@ -137,7 +137,7 @@ app.post('/edit/:id', async (req, res) => {
                 ...result.toObject(),
                 date: formatDate(result.date)
             };
-            res.render('detail', { detail: formattedDetail });
+            res.redirect(`/detail/${id}`);
         } else {
             res.status(404).send('게시글을 찾을 수 없습니다.');
         }
