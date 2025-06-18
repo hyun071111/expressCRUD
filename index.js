@@ -45,7 +45,7 @@ function formatDate(date) {
 // middleware
 // main page GET
 app.get('/', async (req, res) => {
-    let writings = await Writing.find({});
+    let writings = await Writing.find({}).sort({ date: -1 });  // 날짜 기준 내림차순 정렬
     writings = writings.map(writing => ({
         ...writing.toObject(),
         date: formatDate(writing.date)
